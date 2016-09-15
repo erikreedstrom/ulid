@@ -7,6 +7,8 @@ defmodule Ulid.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+		 description: description(),
+     package: package(),
      deps: deps()]
   end
 
@@ -28,5 +30,19 @@ defmodule Ulid.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     []
+  end
+
+  defp description do
+    """
+    Universally Unique Lexicographically Sortable Identifier
+    """
+  end
+
+  defp package do
+    [name: :ulid,
+     files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+     maintainers: ["Jose Añasco"],
+     licenses: ["Apache 2.0"],
+     links: %{"GitHub" => "https://github.com/merongivian/ulid"}]
   end
 end
