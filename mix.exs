@@ -2,14 +2,16 @@ defmodule Ulid.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :ulid,
-     version: "0.1.0",
-     elixir: "~> 1.3",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-		 description: description(),
-     package: package(),
-     deps: deps()]
+    [
+      app: :ulid,
+      version: "1.0.0",
+      elixir: "~> 1.3",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      description: description(),
+      package: package(),
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application
@@ -29,7 +31,12 @@ defmodule Ulid.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      # Benchmarking
+      {:benchfella, "~> 0.3.5", only: [:dev, :test]},
+      # Static checking
+      {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false}
+    ]
   end
 
   defp description do
@@ -39,10 +46,12 @@ defmodule Ulid.Mixfile do
   end
 
   defp package do
-    [name: :ulid,
-     files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
-     maintainers: ["Jose Añasco"],
-     licenses: ["Apache 2.0"],
-     links: %{"GitHub" => "https://github.com/merongivian/ulid"}]
+    [
+      name: :ulid,
+      files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+      maintainers: ["Erik Reedstrom", "Johnny Feng"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/Homepolish/ulid"}
+    ]
   end
 end
