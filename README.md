@@ -10,8 +10,7 @@ Universally Unique Lexicographically Sortable Identifier implementation for Elix
 	<br>
 </h1>
 
-[![Gem Downloads](http://img.shields.io/gem/dt/ulid.svg)](https://rubygems.org/gems/ulid)
-[![GitHub License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/rafaelsales/ulid)
+[![GitHub License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Homepolish/ulid)
 
 # Universally Unique Lexicographically Sortable Identifier
 
@@ -53,13 +52,44 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ### Usage
 
+Ulids can be generated with a simple call.
+
 ```elixir
-Ulid.generate # 01ARZ3NDEKTSV4RRFFQ69G5FAV
+iex> Ulid.generate()
+"01ARZ3NDEKTSV4RRFFQ69G5FAV"
+```
+
+#### Seed Time
+
+One can also input a seed time which will consistently give the same time component.
+This is useful for migrating to ulid.
+
+```elixir
+iex> {:ok, dt} = DateTime.from_naive(~N[2018-01-01 00:00:00], "Etc/UTC")
+iex> timestamp = DateTime.to_unix(dt, :millisecond)
+iex> Ulid.generate(timestamp)
+"01C2QG9400RY29DZPBYFNM93FJ"
+```
+
+#### Binary
+
+Generating raw binary Ulids is also possible.
+
+```elixir
+iex> Ulid.generate_binary()
+<<1, 98, 114, 66, 176, 35, 120, 165, 246, 238, 101, 132, 56, 100, 63, 177>>
+```
+
+```elixir
+iex> {:ok, dt} = DateTime.from_naive(~N[2018-01-01 00:00:00], "Etc/UTC")
+iex> timestamp = DateTime.to_unix(dt, :millisecond)
+iex> Ulid.generate_binary(timestamp)
+<<1, 96, 175, 4, 144, 0, 76, 227, 163, 150, 142, 231, 2, 152, 139, 26>>
 ```
 
 ## Specification
 
-Below is the current specification of ULID as implemented in this repository. *Note: the binary format has not been implemented.*
+Below is the current specification of ULID as implemented in this repository.
 
 ```
  01AN4Z07BY      79KA1307SR9X4MV3
@@ -120,7 +150,21 @@ r is Randomness
 mix test
 ```
 
+### Performance
+
+Encoding
+
+```
+## UlidBench
+benchmark name   iterations   average time
+generate            1000000   2.91 µs/op
+generate_binary     1000000   1.04 µs/op
+encode              1000000   1.72 µs/op
+decode              1000000   1.76 µs/op
+```
+
 ### Credits and references:
 
 * https://github.com/alizain/ulid
 * https://github.com/ulid-org/spec
+* https://github.com/dcuddeback/ulid-elixir
