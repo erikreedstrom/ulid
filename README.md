@@ -87,6 +87,20 @@ iex> Ulid.generate_binary(timestamp)
 <<1, 96, 175, 4, 144, 0, 76, 227, 163, 150, 142, 231, 2, 152, 139, 26>>
 ```
 
+### Extracting timestamp
+
+It is possible to extract the timestamp from Ulids as well.
+
+```elixir
+iex> Ulid.extract_timestamp(<<1, 86, 61, 243, 100, 129, 149, 125, 206, 44, 55, 150, 198, 186, 71, 79>>)
+1469918176385
+```
+
+```elixir
+iex> Ulid.extract_timestamp("01ARYZ6S4124TJP2BQQZX06FKM")
+1469918176385
+```
+
 ## Specification
 
 Below is the current specification of ULID as implemented in this repository.

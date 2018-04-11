@@ -3,6 +3,8 @@ defmodule Ulid do
   Universally Unique Lexicographically Sortable Identifier
   """
 
+  alias Ulid.Decoder
+
   @typedoc """
   An Crockford 32 encoded ULID string.
   """
@@ -46,4 +48,22 @@ defmodule Ulid do
   def generate_binary(timestamp \\ System.system_time(:milliseconds)) do
     <<timestamp::unsigned-size(48), :crypto.strong_rand_bytes(10)::binary>>
   end
+
+  @doc """
+  Extracts a timestamp from a ulid.
+
+  ## Examples
+
+      iex> Ulid.extract_timestamp(<<1, 86, 61, 243, 100, 129, 149, 125, 206, 44, 55, 150, 198, 186, 71, 79>>)
+      1469918176385
+
+      iex> Ulid.extract_timestamp("01ARYZ6S4124TJP2BQQZX06FKM")
+      1469918176385
+  """
+  @spec extract_timestamp(t | raw) :: integer | :error
+  def extract_timestamp(<<_::unsigned-size(208)>> = text) do
+    with {:ok, bytes} <- Decoder.decode(text), do: extract_timestamp(bytes)
+  end
+
+  def extract_timestamp(<<timestamp::unsigned-size(48), _::unsigned-size(80)>>), do: timestamp
 end
