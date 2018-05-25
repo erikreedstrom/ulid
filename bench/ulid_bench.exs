@@ -14,6 +14,11 @@ defmodule UlidBench do
     nil
   end
 
+  bench "generate_uuid" do
+    Ulid.generate_uuid()
+    nil
+  end
+
   bench "encode" do
     Ulid.Encoder.encode(@ulid_raw)
     nil

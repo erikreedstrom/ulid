@@ -87,6 +87,29 @@ iex> Ulid.generate_binary(timestamp)
 <<1, 96, 175, 4, 144, 0, 76, 227, 163, 150, 142, 231, 2, 152, 139, 26>>
 ```
 
+#### UUID
+
+Sometimes it's easier to deal with the UUID format. This library provides
+conversion for raw and encoded Ulids to and from UUID, as well as generation.
+
+```elixir
+iex> Ulid.generate_uuid()
+"0162727c-69cb-822b-2d7b-46425d5bb45d"
+```
+
+```elixir
+iex> Ulid.to_uuid(<<1, 99, 150, 178, 200, 245, 145, 16, 174, 235, 231, 88, 83, 10, 188, 83>>)
+"016396b2-c8f5-9110-aeeb-e758530abc53"
+
+iex> Ulid.to_uuid("01CEBB5J7NJ48AXTZ7B19GNF2K")
+"016396b2-c8f5-9110-aeeb-e758530abc53"
+```
+
+```elixir
+iex> Ulid.from_uuid("016396b2-c8f5-9110-aeeb-e758530abc53")
+"01CEBB5J7NJ48AXTZ7B19GNF2K"
+```
+
 ### Extracting timestamp
 
 It is possible to extract the timestamp from Ulids as well.
@@ -98,6 +121,11 @@ iex> Ulid.extract_timestamp(<<1, 86, 61, 243, 100, 129, 149, 125, 206, 44, 55, 1
 
 ```elixir
 iex> Ulid.extract_timestamp("01ARYZ6S4124TJP2BQQZX06FKM")
+1469918176385
+```
+
+```elixir
+iex> Ulid.extract_timestamp("01563df3-6481-1135-2b09-77bffa033e74")
 1469918176385
 ```
 
@@ -171,10 +199,11 @@ Encoding
 ```
 ## UlidBench
 benchmark name   iterations   average time
-generate            1000000   2.91 µs/op
-generate_binary     1000000   1.04 µs/op
-encode              1000000   1.72 µs/op
-decode              1000000   1.76 µs/op
+generate_binary     1000000   1.03 µs/op
+encode              1000000   1.69 µs/op
+decode              1000000   1.70 µs/op
+generate_uuid       1000000   2.01 µs/op
+generate            1000000   2.86 µs/op
 ```
 
 ### Credits and references:
