@@ -32,7 +32,7 @@ defmodule Ulid do
       "01ARYZ6S4124TJP2BQQZX06FKM"
   """
   @spec generate(none() | integer()) :: t | :error
-  def generate(timestamp \\ System.system_time(:milliseconds)) do
+  def generate(timestamp \\ System.system_time(:millisecond)) do
     with {:ok, t} <- Ulid.Encoder.encode(generate_binary(timestamp)) do
       t
     end
@@ -50,7 +50,7 @@ defmodule Ulid do
       <<1, 86, 61, 243, 100, 129, 149, 125, 206, 44, 55, 150, 198, 186, 71, 79>>
   """
   @spec generate_binary(none() | integer()) :: raw
-  def generate_binary(timestamp \\ System.system_time(:milliseconds)) do
+  def generate_binary(timestamp \\ System.system_time(:millisecond)) do
     <<timestamp::unsigned-size(48), :crypto.strong_rand_bytes(10)::binary>>
   end
 
@@ -66,7 +66,7 @@ defmodule Ulid do
       "01563df3-6481-961f-7ae6-f445f82a2b8b"
   """
   @spec generate_uuid(none() | integer()) :: uuid
-  def generate_uuid(timestamp \\ System.system_time(:milliseconds)) do
+  def generate_uuid(timestamp \\ System.system_time(:millisecond)) do
     with {:ok, t} <- Ulid.Encoder.encode_uuid(generate_binary(timestamp)) do
       t
     end
